@@ -1,24 +1,25 @@
+# backend/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import game_routes, ws_routes
 
-app = FastAPI()
+app = FastAPI(title="CheckTheNum Game Backend")
 
+# ---------------------- CORS CONFIG ----------------------
+# Allow frontend hosted on Netlify to call APIs and WS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow all origins for testing
+    allow_origins=["https://checkthenum.netlify.app"],  # <-- no trailing slash
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(game_routes.router, prefix="/api")
-app.include_router(ws_routes.router)   # this mounts /ws/<id>
+# ---------------------- API ROUTES ----------------------
+app.include_router(game_routes.router)
+app.include_router(ws_routes.router)
 
-@app.get("/")
-def home():
-    return {"message": "Backend running"}
-
+# ---------------------- HEALTH CHECK ----------------------
 @app.get("/health")
-def health():
-    return {"status": "ok"}
+def health_check():
+    return {"status": "ok", "message": "Backend is running!"}
