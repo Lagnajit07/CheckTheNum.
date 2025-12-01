@@ -248,6 +248,8 @@ button {
     z-index: 9999;
 }
 
+
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     #setup, #game, #winPage {
