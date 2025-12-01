@@ -3,9 +3,9 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from database.memory_db import connections
 
-router = APIRouter(prefix="/ws")  # <-- IMPORTANT
+router = APIRouter(prefix="/ws")  # <- prefix ensures /ws/ route
 
-@router.websocket("/{game_id}")    # <-- simplified
+@router.websocket("/{game_id}")
 async def websocket_endpoint(websocket: WebSocket, game_id: str):
     await websocket.accept()
 
@@ -18,6 +18,7 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str):
         while True:
             data = await websocket.receive_json()
 
+            # broadcast to all in the same game
             for ws in list(connections[game_id]):
                 try:
                     await ws.send_json(data)

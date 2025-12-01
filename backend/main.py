@@ -9,7 +9,7 @@ app = FastAPI(title="CheckTheNum Game Backend")
 # Allow frontend hosted on Netlify to call APIs and WS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://checkthenum.netlify.app"],  # <-- no trailing slash
+    allow_origins=["https://checkthenum.netlify.app","https://localhost:5173"],  # <-- no trailing slash
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
